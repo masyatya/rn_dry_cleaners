@@ -48,7 +48,7 @@ export const CleanerListScreen = ({ navigation }) => {
       {content}
     </AppScreenList>
   )
-}
+};
 
 CleanerListScreen.navigationOptions = ({ navigation }) => {
   const balance = navigation.getParam('balance');
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 20,
   }
-})
+});

@@ -37,4 +37,3 @@ const cleanersReducer = (state = initialState, action) => {
 };
 
 export default cleanersReducer;
-

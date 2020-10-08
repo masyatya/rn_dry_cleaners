@@ -175,4 +175,4 @@ const styles = StyleSheet.create({
   service: {
     width: Dimensions.get('window').width * 0.65,
   }
-})
+});

@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   wrapper: {
     marginTop: 10,
   },
-})
+});

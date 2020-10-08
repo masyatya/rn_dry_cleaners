@@ -10,4 +10,4 @@ export const AppHeaderIconMaterial = (props) => (
     iconSize={24} 
     color={THEME.WHITE_COLOR} 
   />
-)
+);

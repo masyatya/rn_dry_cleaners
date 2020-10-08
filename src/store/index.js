@@ -6,8 +6,6 @@ import * as selectorsAuth from './auth';
 import * as selectorsCleaners from './cleaners';
 import * as selectorsOrder from './order';
 
-
-
 export const getUsers = state => selectorsAuth.getUsers(state.auth);
 export const getCurrentUser = state => selectorsAuth.getCurrentUser(state.auth);
 export const getClients = state => selectorsAuth.getClients(state.auth);
@@ -19,7 +17,6 @@ export const getUserOrders = state => selectorsAuth.getUserOrders(state.auth);
 export const getCleaner = state => selectorsCleaners.getCleaner(state.cleaners);
 export const getCleaners = state => selectorsCleaners.getCleaners(state.cleaners);
 export const getOrder = state => selectorsOrder.getOrder(state.order);
-
 
 const rootReducer = combineReducers({
   auth: authReducer,

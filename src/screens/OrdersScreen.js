@@ -45,7 +45,7 @@ export const OrdersScreen = ({ navigation }) => {
       {content}
     </AppScreenList>
   );
-}
+};
 
 OrdersScreen.navigationOptions = ({ navigation }) => {
   const balance = navigation.getParam('balance');
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-})
+});

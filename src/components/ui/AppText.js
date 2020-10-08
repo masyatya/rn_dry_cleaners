@@ -10,4 +10,4 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-regular',
     fontSize: 18,
   }
-})
+});

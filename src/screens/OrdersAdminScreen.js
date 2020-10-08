@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import React from 'react';
+import { StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import * as selectors from '../store';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-})
+});

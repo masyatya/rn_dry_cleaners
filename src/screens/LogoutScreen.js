@@ -41,7 +41,7 @@ export const LogoutScreen = ({ navigation }) => {
       </View>
     </AppScreen>
   )
-}
+};
 
 const styles = StyleSheet.create({
   textContainer: {
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 50,
   }
-})
+});

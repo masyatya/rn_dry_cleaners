@@ -75,7 +75,7 @@ export const SignInScreen = ({ navigation }) => {
 
 SignInScreen.navigationOptions = {
   headerTitle: 'Sign In'
-}
+};
 
 const styles = StyleSheet.create({
   button: {

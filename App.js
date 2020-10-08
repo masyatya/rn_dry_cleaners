@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import { AppNavigation } from './src/navigation/AppNavigation';
 import { AppLoading } from 'expo';
 import { bootstrap } from './src/bootstrap';
@@ -25,7 +24,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-
-});
