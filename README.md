@@ -22,5 +22,3 @@
 ![Welcome](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/welcome.jpg)
 ![Registration](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/reg.jpg)
 ![SignIn](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/login.jpg)
-
-
