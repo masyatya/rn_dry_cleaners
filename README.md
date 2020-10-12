@@ -22,13 +22,11 @@
 ![Welcome](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/welcome.jpg)
 ![Registration](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/reg.jpg)
 ![SignIn](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/login.jpg)
-![SignIn](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/login.jpg)
 
 Admin profile:
 
 ![AdminMenu](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/admin_menu.png)
 ![CreateDryCleaner](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/create_d_c.jpg)
-![AdminMenu](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/admin_menu.png)
 ![AdminDryCleanersList](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/adm_dr_list.png)
 ![AdminOrders](https://github.com/masyatya/rn_dry_cleaners/blob/develop/assets/readme_photo/admin_orders.png)
 
