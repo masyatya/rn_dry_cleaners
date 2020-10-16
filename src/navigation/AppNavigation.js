@@ -23,7 +23,6 @@ import { AppHeaderLogout } from '../components/AppHeaderLogout';
 import { AppHeaderBalance } from '../components/AppHeaderBalance';
 import { View } from 'react-native';
 
-
 const stackOptions = {
   headerStyle: {
     backgroundColor: THEME.BLACK_COLOR,
