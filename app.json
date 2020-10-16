@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "rn_dry_cleaning",
+    "name": "Dry cleaners",
     "slug": "rn_dry_cleaning",
+    "privacy": "public",
     "version": "1.0.0",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,8 +21,12 @@
     "ios": {
       "supportsTablet": true
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "android": {
+      "package": "com.masyatya.dry_cleaners",
+      "versionCode": 1,
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     }
   }
 }
