@@ -17,10 +17,11 @@ export const SignUpScreen = ({ navigation }) => {
   const [userType, setUserType] = useState('user');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState('');
   const users = useSelector(selectors.getUsers);
 
   const addUserHandler = () => {
-    if(username.trim() && password) {
+    if(username.trim() && password && fullname.trim()) {
       if(users.some(u => u.username === username)) {
         Alert.alert('Error', 'Username already exist');
         return;
@@ -31,6 +32,7 @@ export const SignUpScreen = ({ navigation }) => {
           type: userType,
           username,
           password,
+          fullname,
         }));
       } else {
         dispatch(addUser({
@@ -38,6 +40,7 @@ export const SignUpScreen = ({ navigation }) => {
           type: userType,
           username,
           password,
+          fullname,
           balance: Math.floor(Math.random() * (500 - 100 + 1) + 100),
         }));
       }
@@ -53,6 +56,9 @@ export const SignUpScreen = ({ navigation }) => {
       if(!password) {
         Alert.alert('Error', 'Enter password');
       }
+      if(!fullname.trim()) {
+        Alert.alert('Error', 'Enter full name');
+      }
     }
   }
 
@@ -65,6 +71,7 @@ export const SignUpScreen = ({ navigation }) => {
         textContentType='username'
         onChangeText={text => setUsername(text.trim())}
         autoCapitalize='none'
+        maxLength={20}
       />
       <AppTextInput 
         value={password}
@@ -73,6 +80,14 @@ export const SignUpScreen = ({ navigation }) => {
         secureTextEntry={true}
         onChangeText={setPassword}
         autoCapitalize='none'
+        maxLength={20}
+      />
+      <AppTextInput 
+        value={fullname}
+        placeholder={'Full Name'}
+        onChangeText={setFullname}
+        autoCapitalize='words'
+        maxLength={20}
       />
       <RadioButton.Item 
         label='User'
@@ -105,10 +120,6 @@ export const SignUpScreen = ({ navigation }) => {
     </AppScreen>
   );
 };
-
-SignUpScreen.navigationOptions = {
-  headerTitle: 'Sign Up',
-}
 
 const styles = StyleSheet.create({
   text: {

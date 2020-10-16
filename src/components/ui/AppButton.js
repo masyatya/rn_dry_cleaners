@@ -14,6 +14,7 @@ export const AppButton = ({
   onPress, 
   color = THEME.BLACK_COLOR, 
   style,
+  textStyle
 }) => {
   const Wrapper = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
 

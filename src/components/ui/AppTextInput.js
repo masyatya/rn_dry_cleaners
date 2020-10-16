@@ -2,35 +2,12 @@ import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { THEME } from '../../theme';
 
-export const AppTextInput = ({ 
-  style, 
-  placeholder,
-  maxLength, 
-  textContentType,
-  secureTextEntry,
-  value,
-  onChangeText,
-  multiline,
-  numberOfLines,
-  textAlignVertical,
-  keyboardType,
-  autoCapitalize,
-}) => (
+export const AppTextInput = ({ style, ...props }) => (
   <View>
     <TextInput 
-      value={value}
-      onChangeText={onChangeText}
-      placeholder={placeholder}
-      style={{ ...styles.default, ...style }}
-      autoCapitalize={autoCapitalize}
+      style={[styles.default, props.style]}
       autoCorrect={false}
-      maxLength={maxLength}
-      textContentType={textContentType}
-      secureTextEntry={secureTextEntry}
-      multiline={multiline}
-      numberOfLines={numberOfLines}
-      textAlignVertical={textAlignVertical}
-      keyboardType={keyboardType}
+      {...props}
     />
   </View>
 );

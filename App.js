@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AppNavigation } from './src/navigation/AppNavigation';
+import { NavigationContainer } from '@react-navigation/native';
+import MainNavigation from './src/navigation/AppNavigation';
 import { AppLoading } from 'expo';
 import { bootstrap } from './src/bootstrap';
 import { Provider } from 'react-redux';
@@ -20,7 +21,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <AppNavigation/>
+      <NavigationContainer>
+        <MainNavigation />
+      </NavigationContainer>
     </Provider>
   );
 }

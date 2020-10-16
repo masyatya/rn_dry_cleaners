@@ -1,33 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Dimensions, View, Image, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as selectors from '../store';
 import { addOrder } from '../store/order';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
-import { AppHeaderIconMaterial } from '../components/AppHeaderIconMaterial';
 import { AppScreen } from '../components/ui/AppScreen';
 import { AppTextBold } from '../components/ui/AppTextBold';
 import { AppText } from '../components/ui/AppText';
 import { AppButton } from '../components/ui/AppButton';
-import { THEME } from '../theme';
+import cleaner_photo from '../../assets/cleaner_photo.jpg';
 
 export const CleanerInfoScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userType = useSelector(selectors.getUserType);
-  const username = useSelector(selectors.getUsername);
+  const userInfo = useSelector(selectors.getInfoUser);
   const cleaner = useSelector(selectors.getCleaner);
   const balance = useSelector(selectors.getBalance);
-
-  useEffect(() => {
-    navigation.setParams({ userType, balance });
-  }, [userType, balance]);
 
   const orderHandler = (service) => {
     if(service.price > balance) {
       Alert.alert('Error', 'Insufficient funds in your account');
     } else {
-      dispatch(addOrder({ ...service, username }));
+      dispatch(addOrder({
+        ...service,
+        ...userInfo,
+        date: new Date().toLocaleDateString(),
+        status: 'new',
+        id: Date.now(),
+      }));
       navigation.navigate('FormOrder');
     }
   };
@@ -47,47 +45,23 @@ export const CleanerInfoScreen = ({ navigation }) => {
         <AppTextBold style={styles.title}>{cleaner.title}</AppTextBold>
         <AppText style={styles.description}>{cleaner.description}</AppText>
       </View>
-      <Image source={{ uri: cleaner.photo }} style={styles.image}/>
-      <View style={styles.service}>
-        <View style={styles.serviceText}>
-          <AppText style={styles.prop}>{cleaner.serviceFirst.title}:</AppText>
-          <AppTextBold style={styles.prop}>{cleaner.serviceFirst.price}</AppTextBold>
+      {cleaner.photo ? (
+        <Image source={{ uri: cleaner.photo }} style={styles.image} />
+      ) : (
+        <Image source={cleaner_photo} style={styles.image} />
+      )}
+      {cleaner.services.map(serv => (
+        <View style={styles.service} key={serv.id}>
+          <View style={styles.serviceText}>
+            <AppText style={styles.prop}>{serv.title}:</AppText>
+            <AppTextBold style={styles.prop}>{serv.price}</AppTextBold>
+          </View>
+          <AppButton onPress={() => orderHandler(serv)}>Order</AppButton>
         </View>
-        <AppButton onPress={() => orderHandler(cleaner.serviceFirst)}>Order</AppButton>
-      </View>
-      <View style={styles.service}>
-        <View style={styles.serviceText}>
-          <AppText style={styles.prop}>{cleaner.serviceSecond.title}:</AppText>
-          <AppTextBold style={styles.prop}>{cleaner.serviceSecond.price}</AppTextBold>
-        </View>
-        <AppButton onPress={() => orderHandler(cleaner.serviceSecond)}>Order</AppButton>
-      </View>
+      ))}
     </AppScreen>
   );
 }
-
-CleanerInfoScreen.navigationOptions = ({ navigation }) => {
-  const userType = navigation.getParam('userType');
-  const balance = navigation.getParam('balance');
-
-  return {
-    headerTitle: userType === 'admin' ? 'Admin Profile' : 'User Profile',
-    headerLeft: null,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <AppTextBold style={{ color: THEME.WHITE_COLOR, }}>{balance}</AppTextBold>
-      <HeaderButtons HeaderButtonComponent={AppHeaderIconMaterial}>
-        <Item title='Balance' iconName='account-balance'/>
-      </HeaderButtons>
-     </View>
-    ),
-  };
-};
 
 const styles = StyleSheet.create({
   heading: {

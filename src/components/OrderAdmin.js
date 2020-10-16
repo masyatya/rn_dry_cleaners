@@ -3,16 +3,21 @@ import { View, StyleSheet } from 'react-native';
 import { AppText } from '../components/ui/AppText';
 import { AppTextBold } from './ui/AppTextBold';
 import { THEME } from '../theme';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export const OrderAdmin = ({ order }) => {
+export const OrderAdmin = ({ order, onPress }) => {
   return (
-    <View style={styles.wrapper}>
+    <TouchableOpacity 
+      onPress={() => onPress(order.id, order.username)}
+      style={styles.wrapper}
+      activeOpacity={0.8}
+    >
       <View style={styles.text}>
         <AppText style={styles.title}>{order.title}</AppText>
         <AppText>{order.price}</AppText>
       </View>
-      <AppTextBold>{order.username}</AppTextBold>
-    </View>
+      <AppTextBold>{order.status}</AppTextBold>
+    </TouchableOpacity>
   );
 };
 

@@ -15,17 +15,15 @@ export const LogoutScreen = ({ navigation }) => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    if(userType === 'user') {
-      dispatch(resetCleaner());
-    }
+    dispatch(resetCleaner());
     navigation.navigate('Main');
   }
 
   const stayHandler = () => {
     if(userType === 'admin') {
-      navigation.navigate('CreateCleaner');
+      navigation.navigate('AdminProfile', { screen: 'CreateCleaner' });
     } else {
-      navigation.navigate('UserProfile');
+      navigation.navigate('UserProfile', { screen: 'UserHome' });
     }
   }
 

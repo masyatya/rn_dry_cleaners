@@ -36,7 +36,6 @@ export const PhotoPicker = ({ setPhoto, photo }) => {
       ) : (
         <AppButton onPress={pickImage}>Select photo</AppButton>
       )}
-      
     </View>
   )
 }

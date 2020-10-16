@@ -24,12 +24,6 @@ export const MainScreen = ({ navigation }) => {
   );
 };
 
-MainScreen.navigationOptions = () => {
-  return {
-    headerTitle: 'Dry Clean',
-  }
-}
-
 const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',

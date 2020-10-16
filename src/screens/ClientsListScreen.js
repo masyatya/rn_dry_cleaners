@@ -1,11 +1,9 @@
 import React from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
 import * as selectors from '../store';
 import { AppScreenList } from '../components/ui/AppScreenList';
 import { AppTextBold } from '../components/ui/AppTextBold';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
 import { Client } from '../components/Client';
 
 export const ClientsListScreen = () => {
@@ -32,18 +30,6 @@ export const ClientsListScreen = () => {
     </AppScreenList>
   )
 }
-
-ClientsListScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerTitle: 'Admin Profile',
-    headerLeft: null,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-  };
-};
 
 const styles = StyleSheet.create({
   text: {

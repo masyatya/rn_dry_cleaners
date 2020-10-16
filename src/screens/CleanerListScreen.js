@@ -15,16 +15,14 @@ export const CleanerListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const cleaners = useSelector(selectors.getCleaners);
   const userType = useSelector(selectors.getUserType);
-  const balance = useSelector(selectors.getBalance);
-
-  useEffect(() => {
-    navigation.setParams({ balance });
-  }, [balance]);
 
   const selectHandler = id => {
     if(userType === 'user') {
       dispatch(selectCleaner(id));
       navigation.navigate('CleanerInfo');
+    } else {
+      dispatch(selectCleaner(id));
+      navigation.navigate('AdminCleanerInfo');
     }
   }
 
@@ -48,28 +46,6 @@ export const CleanerListScreen = ({ navigation }) => {
       {content}
     </AppScreenList>
   )
-};
-
-CleanerListScreen.navigationOptions = ({ navigation }) => {
-  const balance = navigation.getParam('balance');
-
-  return {
-    headerTitle: 'Cleaner List',
-    headerLeft: null,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-    headerRight: () => balance && (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-       <AppTextBold style={{ color: THEME.WHITE_COLOR, }}>{balance}</AppTextBold>
-       <HeaderButtons HeaderButtonComponent={AppHeaderIconMaterial}>
-         <Item title='Balance' iconName='account-balance'/>
-       </HeaderButtons>
-      </View>
-     )
-  };
 };
 
 const styles = StyleSheet.create({

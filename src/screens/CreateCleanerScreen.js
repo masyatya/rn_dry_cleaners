@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Dimensions, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { addCleaner } from '../store/cleaners';
-import { logout } from '../store/auth';
 import { AppButton } from '../components/ui/AppButton';
 import { AppScreen } from '../components/ui/AppScreen';
 import { AppTextBold } from '../components/ui/AppTextBold';
+import { AppText } from '../components/ui/AppText';
 import { AppTextInput } from '../components/ui/AppTextInput';
 import { PhotoPicker } from '../components/PhotoPicker';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
 import { THEME } from '../theme';
 
 export const CreateCleanerScreen = ({ navigation }) => {
@@ -18,9 +16,10 @@ export const CreateCleanerScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [created, setCreated] = useState(false);
   const [description, setDescription] = useState('');
-  const [serviceFirst, setServiceFirst] = useState({ title: '', price: '' });
-  const [serviceSecond, setServiceSecond] = useState({ title: '', price: '' });
+  const [service, setService] = useState({ title: '', price: ''});
+  const [services, setServices] = useState([]);
   const [photo, setPhoto] = useState(null);
+  
   const addCleanerHandler = () => {
     if(!title.trim()) {
       Alert.alert('Error', 'Enter title of the dry cleaner');
@@ -28,22 +27,6 @@ export const CreateCleanerScreen = ({ navigation }) => {
     }
     if(!description.trim()) {
       Alert.alert('Error', 'Enter description of the dry cleaner');
-      return;
-    }
-    if(!serviceFirst.title.trim()) {
-      Alert.alert('Error', 'Enter title of the first service');
-      return;
-    }
-    if(!serviceFirst.price || isNaN(+serviceFirst.price)) {
-      Alert.alert('Error', 'Enter valid price of the first service');
-      return;
-    }
-    if(!serviceSecond.title.trim()) {
-      Alert.alert('Error', 'Enter title of the second service');
-      return;
-    }
-    if(!serviceSecond.price || isNaN(+serviceSecond.price)) {
-      Alert.alert('Error', 'Enter valid price of the second service');
       return;
     }
     if(!photo) {
@@ -56,28 +39,39 @@ export const CreateCleanerScreen = ({ navigation }) => {
         id: Date.now().toString(),
         title,
         description,
-        serviceFirst,
-        serviceSecond,
-        photo
+        services,
+        photo,
       }));
-      navigation.navigate('CleanerList');
+      navigation.navigate('AdminProfile', { screen: 'CleanerList' });
       setTitle('');
       setDescription('');
-      setServiceFirst({});
-      setServiceSecond({});
+      setServices([]);
       setPhoto('');
       setCreated(false);
     }, 50);
   };
 
-  const logoutHandler = useCallback(() => {
-    dispatch(logout());
-    navigation.navigate('Main');
-  }, [dispatch]);
+  const deleteService = id => {
+    const copyServices = [...services].filter(serv => serv.id !== id);
+    setServices(copyServices);
+  }
 
-  useEffect(() => {
-    navigation.setParams({ logoutHandler });
-  }, [logoutHandler])
+  const addService = () => {
+    if(!service.title.trim()) {
+      Alert.alert('Error', 'Enter service title');
+      return;
+    }
+    if(!service.price) {
+      Alert.alert('Error', 'Enter service price');
+      return;
+    }
+    setServices(prev => [...prev, { 
+      title: service.title.trim(), 
+      price: service.price, 
+      id: Date.now(),
+    }]);
+    setService({ title: '', price: '' });
+  }
 
   return (
     <AppScreen>
@@ -95,37 +89,38 @@ export const CreateCleanerScreen = ({ navigation }) => {
         multiline={true}
         numberOfLines={4}
         textAlignVertical='top'
+        maxLength={120}
       />
+      {services.map(serv => (
+        <View style={styles.services__added} key={serv.id}>
+          <AppText style={styles.service__added}>{serv.title}</AppText>
+          <View style={styles.service__added_right}>
+            <AppText>{serv.price}</AppText>
+            <AppButton 
+              style={styles.button_close}
+              onPress={() => deleteService(serv.id)}
+            >
+              &times;
+            </AppButton>
+          </View>
+        </View>
+      ))}
       <View style={styles.services}>
         <AppTextInput 
-          style={styles.service}
-          value={serviceFirst.title}
-          placeholder={'First service'} 
-          onChangeText={text => setServiceFirst(prev => ({ ...prev, title: text }))}
+          style={styles.service__title}
+          value={service.title}
+          placeholder={'Service title'} 
+          onChangeText={text => setService(prev => ({ ...prev, title: text }))}
           maxLength={20}
         />
         <AppTextInput 
-          value={serviceFirst.price}
+          value={service.price}
           placeholder={'Price'} 
-          onChangeText={text => setServiceFirst(prev => ({ ...prev, price: text.trim() }))}
+          onChangeText={text => setService(prev => ({ ...prev, price: text.trim() }))}
           keyboardType='number-pad'
         />
       </View>
-      <View style={styles.services}>
-        <AppTextInput 
-          style={styles.service}
-          value={serviceSecond.title}
-          placeholder={'Second service'} 
-          onChangeText={text => setServiceSecond(prev => ({ ...prev, title: text }))}
-          maxLength={20}
-        />
-        <AppTextInput 
-          value={serviceSecond.price}
-          placeholder={'Price'} 
-          onChangeText={text => setServiceSecond(prev => ({ ...prev, price: text.trim() }))}
-          keyboardType='number-pad'
-        />
-      </View>
+      <AppButton style={styles.button} onPress={addService}>Add service</AppButton>
       <PhotoPicker setPhoto={setPhoto} photo={photo}/>
       {created ? (
         <AppButton style={styles.button}>
@@ -140,25 +135,6 @@ export const CreateCleanerScreen = ({ navigation }) => {
   );
 }
 
-CreateCleanerScreen.navigationOptions = ({ navigation }) => {
-  const logoutHandler = navigation.getParam('logoutHandler');
-
-  return {
-    headerTitle: 'Admin Profile',
-    headerLeft: null,
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Logout' iconName='logout' onPress={logoutHandler}/>
-      </HeaderButtons>
-    ),
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-  };
-};
-
 const styles = StyleSheet.create({
   text: {
     marginBottom: 10,
@@ -172,7 +148,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  service: {
-    width: Dimensions.get('window').width * 0.65,
+  services__added: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+  },
+  button_close: {
+    marginLeft: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 0,
+  },
+  service__added_right: {
+    flexDirection: 'row',
   }
 });

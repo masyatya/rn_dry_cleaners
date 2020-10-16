@@ -3,14 +3,19 @@ import { StyleSheet, ScrollView, StatusBar } from 'react-native';
 
 export const AppScreen = ({ children, style }) => (
   <>
-    <StatusBar></StatusBar>
-    <ScrollView style={ {...styles.default, ...style }}>{children}</ScrollView>
+    <StatusBar>
+    </StatusBar>
+    <ScrollView style={[styles.default, style]}>
+      {children}
+    </ScrollView>
   </>
 );
 
 const styles = StyleSheet.create({
   default: {
+    marginVertical: 20,
+    paddingBottom: 20,
     paddingHorizontal: 30,
-    paddingVertical: 20,
+    marginBottom: 20,
   },
 });

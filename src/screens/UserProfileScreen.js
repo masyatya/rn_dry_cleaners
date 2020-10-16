@@ -1,28 +1,13 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../store/auth';
 import * as selectors from '../store';
-import { resetCleaner } from '../store/cleaners';
 import { AppTextBold } from '../components/ui/AppTextBold';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
 import { AppScreen } from '../components/ui/AppScreen';
 import { AppText } from '../components/ui/AppText';
 
-export const UserProfileScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
+export const UserProfileScreen = () => {
   const user = useSelector(selectors.getCurrentUser);
-
-  const logoutHandler = useCallback(() => {
-    navigation.navigate('Main');
-    dispatch(resetCleaner());
-    dispatch(logout());
-  }, [dispatch]);
-
-  useEffect(() => {
-    navigation.setParams({ logoutHandler });
-  }, [logoutHandler])
 
   if(!user) {
     return null;
@@ -31,6 +16,10 @@ export const UserProfileScreen = ({ navigation }) => {
   return (
     <AppScreen>
       <AppTextBold style={styles.header}>Profile Info</AppTextBold>
+      <View style={styles.block}>
+        <AppTextBold style={styles.prop}>Full Name:</AppTextBold>
+        <AppText>{user.fullname}</AppText>
+      </View>
       <View style={styles.block}>
         <AppTextBold style={styles.prop}>Username:</AppTextBold>
         <AppText>{user.username}</AppText>
@@ -49,24 +38,6 @@ export const UserProfileScreen = ({ navigation }) => {
       </View>
     </AppScreen>
   )
-};
-
-UserProfileScreen.navigationOptions = ({ navigation }) => {
-  const logoutHandler = navigation.getParam('logoutHandler');
-  return {
-    headerTitle: 'User Profile',
-    headerLeft: null,
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Logout' iconName='logout' onPress={logoutHandler}/>
-      </HeaderButtons>
-    ),
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({

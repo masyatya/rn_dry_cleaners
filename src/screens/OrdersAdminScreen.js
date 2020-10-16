@@ -1,22 +1,30 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as selectors from '../store';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
+import { selectOrder } from '../store/auth'
 import { AppScreenList } from '../components/ui/AppScreenList';
 import { AppTextBold } from '../components/ui/AppTextBold';
 import { OrderAdmin } from '../components/OrderAdmin';
 
-export const OrdersAdminScreen = () => {
+export const OrdersAdminScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const user = useSelector(selectors.getCurrentUser);
   const orders = useSelector(selectors.getOrders);
+
+  const orderInfoHandler = (id, username) => {
+    dispatch(selectOrder(id, username));
+    navigation.navigate('AdminOrderInfo');
+  }
 
   let content = (
     <FlatList 
       data={orders}
       renderItem={({ item }) => (
-        <OrderAdmin order={item} />
+        <OrderAdmin 
+          order={item} 
+          onPress={orderInfoHandler}
+        />
       )}
       keyExtractor={(item, index) => item.title + index}
     />
@@ -38,18 +46,6 @@ export const OrdersAdminScreen = () => {
       {content}
     </AppScreenList>
   );
-}
-
-OrdersAdminScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerTitle: 'Admin Profile',
-    headerLeft: null,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-  }
 }
 
 const styles = StyleSheet.create({

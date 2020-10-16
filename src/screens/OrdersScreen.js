@@ -1,23 +1,14 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import * as selectors from '../store';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
-import { AppHeaderIconMaterial } from '../components/AppHeaderIconMaterial';
 import { AppScreenList } from '../components/ui/AppScreenList';
 import { AppTextBold } from '../components/ui/AppTextBold';
 import { OrderUser } from '../components/OrderUser';
-import { THEME } from '../theme';
 
-export const OrdersScreen = ({ navigation }) => {
+export const OrdersScreen = () => {
   const user = useSelector(selectors.getCurrentUser);
-  const balance = useSelector(selectors.getBalance);
   const orders = useSelector(selectors.getUserOrders);
-
-  useEffect(() => {
-    navigation.setParams({ balance });
-  }, [balance]);
 
   let content = (
     <FlatList 
@@ -45,28 +36,6 @@ export const OrdersScreen = ({ navigation }) => {
       {content}
     </AppScreenList>
   );
-};
-
-OrdersScreen.navigationOptions = ({ navigation }) => {
-  const balance = navigation.getParam('balance');
-
-  return {
-    headerTitle: 'User Profile',
-    headerLeft: null,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <AppTextBold style={{ color: THEME.WHITE_COLOR, }}>{balance}</AppTextBold>
-      <HeaderButtons HeaderButtonComponent={AppHeaderIconMaterial}>
-        <Item title='Balance' iconName='account-balance'/>
-      </HeaderButtons>
-     </View>
-    )
-  };
 };
 
 const styles = StyleSheet.create({

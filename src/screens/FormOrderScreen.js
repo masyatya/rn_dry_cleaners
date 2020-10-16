@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as selectors from '../store';
 import { confirmOrder } from '../store/auth';
 import { setBalance } from '../store/auth';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { AppHeaderIcon } from '../components/AppHeaderIcon';
-import { AppHeaderIconMaterial } from '../components/AppHeaderIconMaterial';
 import { AppScreen } from '../components/ui/AppScreen';
 import { AppTextBold } from '../components/ui/AppTextBold';
 import { THEME } from '../theme';
@@ -19,14 +16,11 @@ export const FormOrderScreen = ({ navigation }) => {
   const [ordered, setOrdered] = useState(false);
   const balance = useSelector(selectors.getBalance);
   const order = useSelector(selectors.getOrder);
-  useEffect(() => {
-    navigation.setParams({ balance });
-  }, [balance]);
 
   const orderHandler = () => {
     setOrdered(true);
     setTimeout(() => {
-      navigation.navigate('UserProfile');
+      navigation.navigate('UserProfile', { screen: 'UserHome' });
       dispatch(setBalance(balance - order.price));
       dispatch(confirmOrder(order));
       setOrdered(false);
@@ -35,7 +29,9 @@ export const FormOrderScreen = ({ navigation }) => {
 
   return (
     <AppScreen>
-      <AppTextBold style={styles.heading}>Form An Order</AppTextBold>
+      <AppTextBold style={styles.heading}>
+        Form An Order
+      </AppTextBold>
       <View style={styles.service}>
         <AppTextBold>Service:</AppTextBold>
         <AppText>{order.title}</AppText>
@@ -53,33 +49,13 @@ export const FormOrderScreen = ({ navigation }) => {
           <MaterialIcons name="done" size={24} color={THEME.WHITE_COLOR} />
         </AppButton>
       ) : (
-        <AppButton style={styles.button} onPress={orderHandler}>Order</AppButton>
+        <AppButton style={styles.button} onPress={orderHandler}>
+          Order
+        </AppButton>
       )}
     </AppScreen>
   );
 }
-
-FormOrderScreen.navigationOptions = ({ navigation }) => {
-  const balance = navigation.getParam('balance');
-
-  return {
-    headerTitle: 'User Profile',
-    headerLeft: null,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title='Menu' iconName='menu' onPress={() => navigation.toggleDrawer()}/>
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <AppTextBold style={{ color: THEME.WHITE_COLOR, }}>{balance}</AppTextBold>
-      <HeaderButtons HeaderButtonComponent={AppHeaderIconMaterial}>
-        <Item title='Balance' iconName='account-balance'/>
-      </HeaderButtons>
-     </View>
-    )
-  };
-};
 
 const styles = StyleSheet.create({
   heading: {

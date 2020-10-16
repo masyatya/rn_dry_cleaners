@@ -4,6 +4,7 @@ import { AppText } from '../components/ui/AppText';
 import { AppTextBold } from './ui/AppTextBold';
 import { THEME } from '../theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import cleaner_photo from '../../assets/cleaner_photo.jpg';
 
 export const Cleaner = ({ cleaner, onPresss }) => {
   return (
@@ -18,15 +19,17 @@ export const Cleaner = ({ cleaner, onPresss }) => {
           <AppText style={styles.description}>{cleaner.description}</AppText>
         </View>
       </View>
-      <View style={styles.services}>
-          <AppText style={styles.service}>{cleaner.serviceFirst.title}:</AppText>
-          <AppText>{cleaner.serviceFirst.price}</AppText>
-        </View>
-        <View style={styles.services}>
-          <AppText style={styles.service}>{cleaner.serviceSecond.title}:</AppText>
-          <AppText>{cleaner.serviceSecond.price}</AppText>
-        </View>
-      <Image source={{ uri: cleaner.photo }} style={styles.image} />
+      {cleaner.services.map(serv => (
+        <View style={styles.services} key={serv.id}>
+          <AppText style={styles.service}>{serv.title}:</AppText>
+          <AppText>{serv.price}</AppText>
+        </View> 
+      ))}
+      {cleaner.photo ? (
+        <Image source={{ uri: cleaner.photo }} style={styles.image} />
+      ) : (
+        <Image source={cleaner_photo} style={styles.image} />
+      )}
     </TouchableOpacity>
   );
 };

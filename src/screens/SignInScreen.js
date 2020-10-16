@@ -30,9 +30,9 @@ export const SignInScreen = ({ navigation }) => {
       setAttempt('success');
       setTimeout(() => {
         if(currentUser.type === 'admin') {
-          navigation.navigate('AdminProfile');
+          navigation.navigate('AdminProfile', { screen: 'CreateCleaner' });
         } else {
-          navigation.navigate('UserProfile');
+          navigation.navigate('UserProfile', { screen: 'UserHome' });
         }
         setUsername('');
         setPassword('');
@@ -69,16 +69,19 @@ export const SignInScreen = ({ navigation }) => {
           Sign in
         </AppButton>
       )}
+      <AppButton 
+        style={styles.button_forgot}
+        onPress={() => navigation.navigate('ForgotPassword')}
+      >
+        Forgot password
+      </AppButton>
     </AppScreen>
   );
-};
-
-SignInScreen.navigationOptions = {
-  headerTitle: 'Sign In'
 };
 
 const styles = StyleSheet.create({
   button: {
     marginTop: 20,
+    marginBottom: 20,
   }
 });
